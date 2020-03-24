@@ -6,7 +6,7 @@
 
 .message-meta{
 font-size: 0.60em;
-margin-top: -6px;
+margin-top: -0.5em;
 width: fit-content;
 }
 
@@ -17,10 +17,15 @@ width: fit-content;
     padding: 2px 15px;
     border-radius: 6px;
     margin: 0.5px 0px 0.5px 0px;
+    max-width: 95%;
 }
 
 .message-text{
     width: fit-content;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 #screen {
