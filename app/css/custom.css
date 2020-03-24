@@ -1,0 +1,113 @@
+#messages {
+    list-style-type:none;
+    /* position: absolute;
+    bottom: 10%; */
+}
+
+.message-meta{
+font-size: 0.60em;
+margin-top: -6px;
+width: fit-content;
+}
+
+.message {
+    width: fit-content;
+    background-color: #333333;
+    color: white;
+    padding: 2px 15px;
+    border-radius: 6px;
+    margin: 0.5px 0px 0.5px 0px;
+}
+
+.message-text{
+    width: fit-content;
+}
+
+#screen {
+    height:110%;
+    width:100%;
+    /* position: relative; */
+    overflow-y: hidden; 
+    overflow-y: auto; 
+    margin-bottom: 0.5em;
+    margin-top: -1.5em;
+}
+
+
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
+}
+
+
+.control {
+  width:100%
+}
+
+.w-100 {
+    width:100%
+}
+
+
+ .h-100-w-100 {
+    height:100%;
+    width:100%
+}
+html, body {
+    height:90%;
+    width:100%;
+    background-color:black;
+    color:white;
+} 
+
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: block; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+    text-align: center;
+  }
+
+#sunshine {
+    width: 59%;
+    margin: 0 auto;
+    font-size: x-large;
+    background-color: teal;
+    border-radius: 5px;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+#snowflake {
+    width: 59%;
+    margin: 0 auto;
+    font-size: x-large;
+    background-color: teal;
+    border-radius: 5px;
+    padding: 0.5em;
+    margin-bottom: 1em; 
+
+}
+
+.center-block {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 30%;
+    margin: auto;
+}

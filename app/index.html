@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+
+
+    <title>Chatty !</title>
+  </head>
+  <body>
+    <div class="container-fluid h-100-w-100">
+        <div class="container h-100-w-100">
+          <!-- <h5>Chatty !</h5> -->
+          <hr>
+          <div id="screen">
+            <div id="filler">
+
+            </div>
+            <ul id="messages" class="list-group">
+            </ul>
+          </div>
+
+          <form class="form-inline control" action="">
+            <div class="input-group w-100">
+                <input type="text" class="form-control w-100" id="m" autocomplete="off" >
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary mb-2">Send</button>
+                </div>
+              </div>
+          </form>      
+          </div>
+    </div>
+
+
+    <div id="overlay">
+      <div class="center-block">
+        <h1>Select User</h1>
+
+        <div id="sunshine" > Sunshine 🌞</div>
+        <div id="snowflake" > Showflake ❄️</div>
+      </div>
+
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        $(function () {
+          var user = null
+          var socket = null;
+          var refresh = true;
+
+          function displayMessage(msg) {
+            
+            if(user == "sunshine"){
+              if(msg.user == "sunshine") {
+                var div = $('<div class="message f-left ">')
+              } else {
+                var div = $('<div class="message f-right ">')
+              }
+            } else if (user == "snowflake"){
+              if(msg.user == "snowflake") {
+                var div = $('<div class="message f-left ">')
+              } else {
+                var div = $('<div class="message f-right ">')
+
+              }
+            } else {
+              var div = $('<div class="message">')
+            }
+            
+            var uid = ""
+            if(msg.user == "sunshine") {uid = "🌞 "}
+            if(msg.user == "snowflake") {uid = "❄️ "}
+            div.append($('<div class="message-text">').text(msg.message))
+
+            let current_datetime = new Date(msg.time)
+            console.log(current_datetime);
+            let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds() 
+            div.append( $('<div class="message-meta">').text(uid +  formatted_date ) )
+
+            $('#messages').append($('<li>').append(div));
+            var objDiv = document.getElementById("screen");
+            objDiv.scrollTop = objDiv.scrollHeight;
+
+            var fillerHeight = $('#screen').height() - $('#messages').height();
+            $('#filler').height(fillerHeight)
+          }
+
+          function subscribeToSocket(socket) {
+          socket.on('chat message', function(msg){
+            displayMessage(msg)
+          });
+
+          socket.on('refresh', function(msg){
+            if(refresh) {
+              $("#messages").empty();
+              refresh= false;
+              for(i =0; i < msg.length; i++) {
+                displayMessage(msg[i])
+              }
+            } 
+          });
+        }
+
+          $('#sunshine').click(()=>{
+            user = 'sunshine'
+            socket = io();
+            subscribeToSocket(socket)
+            document.getElementById("overlay").style.display = "none";
+          })
+
+          $('#snowflake').click(()=>{
+            user = 'snowflake'
+            socket = io();
+            subscribeToSocket(socket)
+            document.getElementById("overlay").style.display = "none";
+          })
+
+          $('form').submit(function(e){
+            e.preventDefault(); // prevents page reloading
+            var val = $('#m').val();
+            
+            if(val == ""){
+              return false;
+            }
+
+            if (val == "delete all") {
+              socket.emit('delete all', {});
+              refresh = true;
+            } 
+
+            socket.emit('chat message', {user:user, message:val});
+            $('#m').val('');
+            return false;
+          });
+
+          
+      });
+      </script>
+  </body>
+</html>
